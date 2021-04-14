@@ -1,0 +1,139 @@
+.Auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-image: url('../../assets/images/shiguang-zhao-i-vgADdh6E4-unsplash.jpg');
+  background-position: center;
+  background-size: cover;
+}
+
+.Auth-card {
+  width: 400px;
+  height: 50vh;
+  border-radius: 8px  ;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0 0 100px 1px rgba(0, 0, 0, 0.589);
+  
+}
+
+.Auth-Buttons-Wrapper {
+  width: 260px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  position: relative;
+  box-shadow: 0 0 20px 9px rgba(32, 32, 32, 0.233);
+  border-radius: 30px;
+}
+
+.Auth-Button {
+  padding: 10px 30px;
+  cursor: pointer;
+  outline: none;
+  background: transparent;
+  border: none;
+  color: black;
+  z-index: 2;
+  font-weight: 600;
+}
+
+.auth-btn {
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  width: 140px;
+  height: 100%;
+  background-color:#ff6600;
+  border-radius: 30px;
+  transition: 0.5s;
+  z-index: 1;
+}
+
+
+.auth-btn-transition{
+    top: 0px;
+  left: 120px;
+  position: absolute;
+  width: 140px;
+  height: 100%;
+  background-color:#ff6600;
+  border-radius: 30px;
+  transition: 0.5s;
+  z-index: 1;
+}
+
+.Auth-loginForm {
+  margin-top: 50px;
+}
+
+.Auth-loginForm-Input {
+    width: 300px;
+    height: 30px;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 1px solid #d38312;
+    margin: 10px 30px;
+    outline: none;
+}
+
+.Auth-loginForm-ForgetPassword{
+   margin: 2vh 0px 2vh 30px;
+    font-size: 14px;
+    font-weight:300;
+   
+    font-family: monospace;
+    cursor: pointer;
+}
+
+.Auth-Login-Button{
+    width: 120px;
+    height: 30px;
+    margin-top: 1vh;
+    margin-left: 120px ;
+    background-color:#ff6600c9;
+    color: rgba(255, 255, 255, 0.849);
+    border-style: none;
+    box-shadow: 0px 0px 20px 2px #4e4e4ea9;
+    border-radius: 20px;
+    font-weight: 600;
+    outline: none;  
+    cursor: pointer;
+}
+
+
+.Auth-Icons-Container{
+    width: 80%;
+
+}
+
+.Auth-Icons-Wrapper{
+   display: flex;
+    margin-top: 40px ;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    
+}
+
+.Auth-Icons{
+        font-size: 35px;
+}
+
+.Validation{
+  width: 300px;
+  font-size: 14px;
+  padding-left: 30px;
+  color: red;
+}

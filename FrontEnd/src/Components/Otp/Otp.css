@@ -1,0 +1,27 @@
+.Otp-Container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 98vh;
+    width: 98vw;
+  }
+  
+  .Otp-Card {
+    width: 400px;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 20px 9px rgba(255, 117, 25, 0.11);
+  }
+
+  .back-arrow{
+      position: relative;
+      transform: translateX(-180px) translateY(-150px);
+      font-size: 20px;
+  }
+
+  .back-arrow:hover{
+      color: chocolate;
+  }
