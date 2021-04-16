@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Otp.css";
 import axios from "axios";
-import {IoMdArrowBack} from 'react-icons/io'
+import { IoMdArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const initialValues = {
@@ -23,7 +23,7 @@ const Otp = () => {
   const otpRequestHandler = (e) => {
     e.preventDefault();
     const data = {
-      email: localStorage.getItem('email'),
+      email: localStorage.getItem("email"),
       otp: otpDetail.otp,
     };
 
@@ -41,7 +41,9 @@ const Otp = () => {
   return (
     <div className="Otp-Container">
       <div className="Otp-Card">
-      <Link to="/"><IoMdArrowBack className="back-arrow"/></Link>
+        <Link to="/">
+          <IoMdArrowBack className="back-arrow" />
+        </Link>
         <form className="Auth-loginForm">
           <input
             value={otpDetail.otp}
@@ -53,7 +55,11 @@ const Otp = () => {
             required
           />
 
-          <button type="submit" className="Auth-Login-Button" onClick={otpRequestHandler}>
+          <button
+            type="submit"
+            className="Auth-Login-Button"
+            onClick={otpRequestHandler}
+          >
             <Link to="/home"> Submit </Link>
           </button>
         </form>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { IoMdArrowBack } from "react-icons/io";
-import { Link,Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 const initialValues = {
   otp: "",
@@ -62,7 +62,7 @@ const CheckOtp = () => {
             className="Auth-Login-Button"
             onClick={otpRequestHandler}
           >
-             Submit 
+            Submit
           </button>
         </form>
       </div>

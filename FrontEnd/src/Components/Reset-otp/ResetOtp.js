@@ -37,9 +37,11 @@ const RestOtp = () => {
         console.log(err);
       });
   };
+
   if (redirect) {
     return <Redirect to={`/${redirect}`} />;
   }
+  
   return (
     <div className="Otp-Container">
       <div className="Otp-Card">
@@ -62,7 +64,7 @@ const RestOtp = () => {
             className="Auth-Login-Button"
             onClick={otpRequestHandler}
           >
-             Submit 
+            Submit
           </button>
         </form>
       </div>

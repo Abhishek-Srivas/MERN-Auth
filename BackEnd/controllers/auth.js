@@ -1,22 +1,28 @@
 const User = require("../models/users");
+const googleUser = require("../models/googleUser");
 const Otp = require("../models/otps");
-
+const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const otpGenerator = require("otp-generator");
 const emailSender = require("../utils/mailsender.js");
+const { OAuth2Client } = require("google-auth-library");
 const JWT = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
+const client = new OAuth2Client(
+  "277609826086-e51snulj2eqgj20kurchcae927meok7f.apps.googleusercontent.com"
+);
+
 exports.signup = (req, res) => {
-  //     const errors = validationResult(req);
-  //   console.log(errors);
-  //   if (!errors.isEmpty()) {
-  //     const error = new Error("Validation Failed");
-  //     error.statusCode = 422;
-  //     error.data = errors.array();
-  //     throw error;
-  //   }
+  const errors = validationResult(req);
+  console.log(errors);
+  if (!errors.isEmpty()) {
+    const error = new Error("Validation Failed");
+    error.statusCode = 422;
+    error.data = errors.array();
+    throw error;
+  }
 
   const email = req.body.email;
   const password = req.body.password;
@@ -122,7 +128,6 @@ exports.checkOTP = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
- 
   // const errors = validationResult(req);
   // console.log(errors);
   // if (!errors.isEmpty()) {
@@ -149,7 +154,7 @@ exports.login = (req, res, next) => {
           otp: OTP,
           email: email,
         });
-  
+
         otp.save();
 
         res.json(
@@ -191,7 +196,7 @@ exports.login = (req, res, next) => {
             message: "User loggedin",
             signAccessToken,
             refreshToken: verifyAccessToken,
-            userId:user._id
+            userId: user._id,
           });
         })
         .catch((err) => {
@@ -205,7 +210,6 @@ exports.login = (req, res, next) => {
       res.json({ message: "Email Not Registered", error: err });
     });
 };
-
 
 exports.sendResetOtp = (req, res, next) => {
   // const errors = validationResult(req);
@@ -288,4 +292,82 @@ exports.resetPassword = (req, res, next) => {
         res.json({ error: err, message: "password not saved" });
       });
   });
+};
+
+exports.googleSignup = (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new Error("Validation Failed");
+    error.statusCode = 422;
+    error.data = errors.array();
+    throw error;
+  }
+
+  const { token, name, email } = req.body;
+  const user = new googleUser({
+    email: email,
+    name: name,
+    token: token,
+  });
+
+  client
+    .verifyIdToken({
+      idToken: token,
+      audience:
+        "277609826086-e51snulj2eqgj20kurchcae927meok7f.apps.googleusercontent.com",
+    })
+    .then((result) => {
+      const { email_verified } = result.payload;
+      if (email_verified) {
+        user
+          .save()
+          .then((result) => {
+            res.json({ message: "User Saved" });
+          })
+          .catch((err) => {
+            res.json("Internal Server Error");
+          });
+      } else {
+        res.status(401).json("Email not authorized");
+      }
+    })
+    .catch((error) => {
+      res.json("Something went wrong");
+    });
+};
+
+exports.googleLogin = (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new Error("Validation Failed");
+    error.statusCode = 422;
+    error.data = errors.array();
+    throw error;
+  }
+  const { token } = req.body;
+  client
+    .verifyIdToken({
+      idToken: token,
+      audience:
+        "277609826086-e51snulj2eqgj20kurchcae927meok7f.apps.googleusercontent.com",
+    })
+    .then((response) => {
+      const { email_verified, name, email } = response.payload;
+
+      if (email_verified) {
+        googleUser.findOne({ email: email }).exec((err, user) => {
+          if (err) {
+            return res.status(400).json({ message: "Something went wrong" });
+          } else {
+            if (user) {
+              res.json({ message: "loggedIn" });
+            } else {
+              res.status(401).json("User not registered");
+            }
+          }
+        });
+      }
+    });
 };

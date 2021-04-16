@@ -24,6 +24,17 @@ app.use(bodyParser.json());
 
 app.use(authRoute);
 
+app.use((err, req, res, next) => {
+  res.status(err.statusCode || 500);
+  res.send({
+    error: {
+      status: err.statusCode || 500,
+      message: err,
+    },
+  });
+});
+
+
 mongoose
   .connect(process.env.DB_CONNECT, {
     useNewUrlParser: true,
