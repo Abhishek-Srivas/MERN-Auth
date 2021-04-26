@@ -36,6 +36,19 @@ const CheckOtp = () => {
         console.log(err);
       });
   };
+
+  const resendOtpHandler = () => {
+    const resendOtpData = { email: localStorage.getItem("email") };
+    console.log(resendOtpData);
+    axios
+      .post("http://localhost:8000/resendOtp", resendOtpData)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
   if (redirect) {
     return <Redirect to={`/${redirect}`} />;
   }
@@ -46,7 +59,7 @@ const CheckOtp = () => {
         <Link to="/">
           <IoMdArrowBack className="back-arrow" />
         </Link>
-        <form className="Auth-loginForm">
+        <form className="Auth-loginForm" onSubmit={otpRequestHandler}>
           <input
             value={otpDetail.otp}
             onChange={handleInputChange}
@@ -57,11 +70,16 @@ const CheckOtp = () => {
             required
           />
 
-          <button
-            type="submit"
-            className="Auth-Login-Button"
-            onClick={otpRequestHandler}
-          >
+          <div className="Auth-loginForm-ForgetPassword">
+            <p
+              style={{ textDecoration: "none", color: "#00000099" }}
+              onClick={resendOtpHandler}
+            >
+              Resend Otp
+            </p>
+          </div>
+
+          <button type="submit" className="Auth-Login-Button">
             Submit
           </button>
         </form>

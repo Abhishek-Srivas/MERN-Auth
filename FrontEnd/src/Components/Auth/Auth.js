@@ -116,23 +116,40 @@ const Auth = () => {
 
   const loginHandler = (e) => {
     e.preventDefault();
-    console.log(errors);
+
     if (errors.pass) {
-      console.log("here");
       const data = {
         email: values.email,
         password: values.password,
       };
-      console.log(data);
+
       axios
         .post("http://localhost:8000/login", data)
         .then((result) => {
           console.log(result);
-          setRedirect("home");
+          const alertData = {
+            message: "Logging In",
+            type: true,
+          };
+
+          localStorage.setItem("refreshToken", result.data.refreshToken);
+          localStorage.setItem("accessToken", result.data.signAccessToken);
+          localStorage.setItem("userId", result.data.userId);
+          setAlertData(alertData);
+          setSuccess(true);
+          const timer = setTimeout(() => setRedirect("home"), 3000);
+          return () => clearTimeout(timer);
         })
         .catch((err) => {
-          console.log(err);
+          const alertData = {
+            message: err.response.data.message,
+            type: false,
+          };
+          setAlertData(alertData);
+          setSuccess(true);
         });
+
+      setSuccess(false);
     }
   };
 
@@ -151,7 +168,6 @@ const Auth = () => {
       axios
         .post("http://localhost:8000/signup", data)
         .then((result) => {
-          console.log(result);
           const alertData = {
             message: "OTP send to your Email",
             type: true,
@@ -160,12 +176,9 @@ const Auth = () => {
           setSuccess(true);
           const timer = setTimeout(() => setRedirect("otp-check"), 3000);
           return () => clearTimeout(timer);
-          
         })
         .catch((err) => {
           if (err.response.status === 422) {
-            console.log(err.response.data.error.message.data[0].msg);
-
             const alertData = {
               message: err.response.data.error.message.data[0].msg,
               type: false,
@@ -263,11 +276,10 @@ const Auth = () => {
               <input
                 value={values.email}
                 onChange={handleInputChange}
-                type="email"
+                type="text"
                 className="Auth-loginForm-Input"
                 placeholder="Email"
                 name="email"
-                required
               />
               <div className="Validation">
                 {errors.email && <p>{errors.email}</p>}
@@ -279,7 +291,6 @@ const Auth = () => {
                 className="Auth-loginForm-Input"
                 placeholder="Passowrd"
                 name="password"
-                required
               />
               <div className="Validation">
                 {errors.password && <p>{errors.password}</p>}
@@ -343,19 +354,17 @@ const Auth = () => {
                 className="Auth-loginForm-Input"
                 placeholder="User Name"
                 name="userName"
-                required
               />
               <div className="Validation">
                 {errors.userName && <p>{errors.userName}</p>}
               </div>
               <input
                 value={signup.email}
-                type="email"
+                type="text"
                 onChange={handleSignupChange}
                 className="Auth-loginForm-Input"
                 placeholder="Email"
                 name="email"
-                required
               />
               <div className="Validation">
                 {errors.emailS && <p>{errors.emailS}</p>}
@@ -367,7 +376,6 @@ const Auth = () => {
                 className="Auth-loginForm-Input"
                 placeholder="Passowrd"
                 name="password"
-                required
               />
               <div className="Validation">
                 {errors.passwordS && <p>{errors.passwordS}</p>}

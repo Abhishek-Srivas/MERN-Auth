@@ -32,6 +32,7 @@ router.post(
   ],
   authController.signup
 );
+router.post('/resendOtp',authController.resendOTP);
 router.post("/signup/check-otp", authController.checkOTP);
 
 router.post("/send-reset-otp", authController.sendResetOtp);
